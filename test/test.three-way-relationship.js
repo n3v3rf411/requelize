@@ -2,7 +2,7 @@ const Joi = require('joi')
 const { test, requelize, dropDb } = require('./utils')
 
 test('three-way relationship - saveAll', (t) => {
-  t.plan(8)
+  t.plan(9)
 
   let User
   let Role
@@ -32,6 +32,8 @@ test('three-way relationship - saveAll', (t) => {
       return requelize.sync()
     })
     .then(() => {
+      t.equal(UserRole._name, User._joins.roles.JoinModel._name, 'sync set JoinModel')
+
       user = new User({ name: 'John Doe' })
       role = new Role({ name: 'Admin' })
       period = new Period({ name: 'Infinity' })
